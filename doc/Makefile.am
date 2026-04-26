@@ -21,8 +21,9 @@ CLEANFILES =
 if OS_LINUX
 dist_man_MANS += \
 	rescan-scsi-bus.sh.8 scsi_logging_level.8 sg_copy_results.8 sg_dd.8 \
-	sg_emc_trespass.8 sg_map.8 sg_map26.8 sg_rbuf.8 sg_read.8 sg_reset.8 \
-	sg_scan.8 sg_test_rwbuf.8 sg_xcopy.8 sginfo.8 sgm_dd.8 sgp_dd.8
+	sg_emc_trespass.8 sg_map.8 sg_map26.8 sg_rbuf.8 sg_read.8 \
+	scsi-rescan.8 sg_reset.8 sg_scan.8 sg_test_rwbuf.8 sg_xcopy.8 \
+	sginfo.8 sgm_dd.8 sgp_dd.8
 CLEANFILES += sg_scan.8
 sg_scan.8: sg_scan.8.linux
 	cp -p $< $@

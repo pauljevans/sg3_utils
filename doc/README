@@ -7,7 +7,7 @@ summary:
 
 https://sg.danny.cz/sg/sg3_utils.html
 https://doug-gilbert.github.io/sg3_utils.html
-    - overview and examples of this package
+    - overview and examples of utilities in this package
 
 https://sg.danny.cz/sg/sg_dd.html
     - discussion and examples of the sg_dd utility which is a dd variant
@@ -41,4 +41,4 @@ The: 'cannot parse date, using it verbatim: TH February 2019' warning
 is ignored.
 
 Douglas Gilbert
-24th March 2026
+21st April 2026

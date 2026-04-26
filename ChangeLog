@@ -2,7 +2,7 @@ Each utility has its own version number, date of last change and
 some description at the top of its ".c" file. All utilities in the main
 directory have their own "man" pages. There is also a sg3_utils man page.
 
-Changelog for pre-release sg3_utils-1.49 [20260420] [svn: r1099]
+Changelog for pre-release sg3_utils-1.49 [20260425] [svn: r1100]
   - AIX partial support: needs getopt.h header which
     surprisingly is non-standard. Keep hidden version in
     lib directory and copy to include dir as needed
@@ -35,6 +35,7 @@ Changelog for pre-release sg3_utils-1.49 [20260420] [svn: r1099]
     options; additions in sbc5r05 (perm and relative_lifetime
     fields).
   - sg_dd: add grpnum=GN operand and --nocopy option
+  - scsi-rescan.8 manpage added, links to rescan-scsi-bus.8
   - rescan-scsi-bus.sh: fix multipath resize without update 
     https://github.com/doug-gilbert/sg3_utils/pull/43.diff
     and 44.diff

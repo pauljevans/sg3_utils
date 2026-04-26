@@ -6,7 +6,7 @@ sg3_utils \- a package of utilities for sending SCSI commands
 [\fI\-\-dry\-run\fR] [\fI\-\-enumerate\fR] [\fI\-\-help\fR] [\fI\-\-hex\fR]
 [\fI\-\-in=FN\fR] [\fI\-\-inhex=FN\fR] [\fI\-\-json[=JO]\fR]
 [\fI\-\-js\-file=JFN\fR] [\fI\-\-maxlen=LEN\fR] [\fI\-\-raw\fR]
-[\fI\-\-timeout=SECS\fR] [\fI\-\-verbose\fR] [\fI\-\-version\fR]
+[\fI\-\-timeout=SECS\fR] [\fI\-\-verbose\fR] [\fI\-\-version\fR] [\fI\-\-\fR]
 [\fIOTHER_OPTIONS\fR] [\fIDEVICE\fR]
 .SH DESCRIPTION
 .\" Add any additional description here
@@ -749,6 +749,15 @@ option is almost always sent to stderr.
 \fB\-V\fR, \fB\-\-version\fR
 print the version string and then exit. Each utility has its own version
 number and date of last code change.
+.TP
+\fB\-\-\fR
+in common with many Unix commands, these utilities will accept the '\-\-'
+option to indicate that everything following that point on the command
+line is an argument and
+.B not
+an option. This becomes important if and when a filename starts with a '\-'
+character. Doing that is not a good idea but fingers slip and bad things
+happens.
 .SH NUMERIC ARGUMENTS
 Many utilities have command line options that take numeric arguments. These
 numeric arguments can be large values (e.g. a logical block address (LBA) on

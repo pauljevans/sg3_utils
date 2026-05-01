@@ -6,10 +6,10 @@ MODPARM=/sys/module/scsi_mod/parameters
 if [ -w "$MODPARM/scan" ] ; then
     scan_type=$(cat $MODPARM/scan)
     if [ "$scan_type" = "manual" ] ; then
-	echo sync > $MODPARM/scan
+        echo sync > $MODPARM/scan
 
-	for shost in /sys/class/scsi_host/host* ; do
-	    echo '- - -' > ${shost}/scan
-	done
+        for shost in /sys/class/scsi_host/host* ; do
+            echo '- - -' > "${shost}"/scan
+        done
     fi
 fi

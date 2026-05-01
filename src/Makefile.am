@@ -68,7 +68,6 @@ DBG_CPPFLAGS =
 endif
 
 # For C++/clang testing
-## CC = gcc-9
 ## CC = gcc
 ## CC = g++
 ## CC = clang
@@ -84,10 +83,8 @@ AM_CFLAGS = -Wall -W -std=c99 $(DBG_CFLAGS)
 # AM_CFLAGS = -Wall -W -flto=auto $(DBG_CFLAGS)
 # AM_CFLAGS = -Wall -W $(DBG_CFLAGS) -fanalyzer
 # AM_CFLAGS = -Wall -W -pedantic -std=c99
-# AM_CFLAGS = -Wall -W -pedantic -std=c11
-# AM_CFLAGS = -Wall -W -pedantic -std=c11 --analyze
-# AM_CFLAGS = -Wall -W -pedantic -std=c++98
-# AM_CFLAGS = -Wall -W -pedantic -std=c++11
+# AM_CFLAGS = -Wall -W -pedantic -std=c23
+# AM_CFLAGS = -Wall -W -pedantic -std=c23 --analyze
 # AM_CFLAGS = -Wall -W -pedantic -std=c++14
 # AM_CFLAGS = -Wall -W -pedantic -std=c++17 $(DBG_CXXFLAGS)
 # AM_CFLAGS = -Wall -W -pedantic -std=c++20 $(DBG_CXXFLAGS)
@@ -96,6 +93,10 @@ AM_CFLAGS = -Wall -W -std=c99 $(DBG_CFLAGS)
 # AM_CFLAGS = -Wall -W -pedantic -std=c++23 $(DBG_CXXFLAGS)
 # AM_CFLAGS = -Wall -W -pedantic -std=c++23 -fanalyzer $(DBG_CXXFLAGS)
 # AM_CFLAGS = -Wall -W -pedantic -std=c++23 --analyze $(DBG_CXXFLAGS)
+# AM_CFLAGS = -Wall -W -pedantic -std=c23 -fanalyzer $(DBG_CFLAGS)
+# AM_CFLAGS = -Wall -W -pedantic -std=c23 --analyze $(DBG_CFLAGS)
+
+# -fanalyzer is static checking for gcc, --analyze is for clang
 
 sg_bg_ctl_LDADD = ../lib/libsgutils2.la
 

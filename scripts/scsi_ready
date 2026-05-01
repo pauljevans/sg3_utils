@@ -46,11 +46,11 @@ fi
 
 for i
 do
-	if [ ! $brief ] ; then
-		echo "sg_turs $verbose $i"
-	fi
-	echo -n "    "
-        if sg_turs $verbose $i ; then
-		echo "ready"
-	fi
+        if [ ! ${brief} ] ; then
+                echo "sg_turs ${verbose} ${i}"
+        fi
+        echo -n "    "
+        if sg_turs ${verbose} "${i}" ; then
+                echo "ready"
+        fi
 done

@@ -152,13 +152,13 @@ check_cmdline()
         invalid_cmdline invalid parameter "$@"
     fi
 
-    if [ $GET = "1" -a $SET = "1" ]
+    if [ ${GET} = "1" ] && [ ${SET} = "1" ]
     then
         invalid_cmdline options \'-c\', \'-g\' and \'-s\' are mutual exclusive
-    elif [ $GET = "1" -a $CREATE = "1" ]
+    elif [ ${GET} = "1" ] && [ ${CREATE} = "1" ]
     then
         invalid_cmdline options \'-c\', \'-g\' and \'-s\' are mutual exclusive
-    elif [ $SET = "1" -a $CREATE = "1" ]
+    elif [ ${SET} = "1" ] && [ ${CREATE} = "1" ]
     then
         invalid_cmdline options \'-c\', \'-g\' and \'-s\' are mutual exclusive
     fi
@@ -186,8 +186,7 @@ get_logging_level()
 {
     echo "Current scsi logging level:"
 #   LEVEL=$(sysctl -n dev.scsi.logging_level)
-    LEVEL=$(cat /proc/sys/dev/scsi/logging_level)
-    if [ $? != 0 ]
+    if ! LEVEL=$(cat /proc/sys/dev/scsi/logging_level)
     then
         echo "$SCRIPTNAME: could not read scsi logging level" \
              "(kernel probably without SCSI_LOGGING support)"
@@ -197,7 +196,7 @@ get_logging_level()
 
 show_logging_level()
 {
-    echo "/proc/sys/dev/scsi/logging_level = $LEVEL"
+    echo "/proc/sys/dev/scsi/logging_level = ${LEVEL}"
 
     LOG_ERROR=$((LEVEL & 7)); LEVEL=$((LEVEL>>3))
     LOG_TIMEOUT=$((LEVEL & 7)); LEVEL=$((LEVEL>>3))
@@ -226,10 +225,9 @@ set_logging_level()
 {
     echo "New scsi logging level:"
 #   sysctl -q -w dev.scsi.logging_level=$LEVEL
-    echo $LEVEL > /proc/sys/dev/scsi/logging_level
-    if [ $? != 0 ]
+    if ! echo ${LEVEL} > /proc/sys/dev/scsi/logging_level
     then
-        echo "$SCRIPTNAME: could not write scsi logging level $LEVEL"
+        echo "$SCRIPTNAME: could not write scsi logging level ${LEVEL}"
         echo "  kernel does not have SCSI_LOGGING support or needs superuser"
         exit 1
     fi
@@ -255,11 +253,11 @@ then
     create_logging_level
     set_logging_level
     show_logging_level
-elif [ $GET = "1" ]
+elif [ ${GET} = "1" ]
 then
     get_logging_level
     show_logging_level
-elif [ $CREATE = "1" ]
+elif [ ${CREATE} = "1" ]
 then
     create_logging_level
     show_logging_level

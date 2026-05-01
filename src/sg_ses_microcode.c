@@ -45,7 +45,7 @@
  * RESULTS commands in order to send microcode to the given SES device.
  */
 
-static const char * version_str = "1.22 20260321";    /* ses4r02 */
+static const char * version_str = "1.23 20260430";    /* ses4r02 */
 
 #define ME "sg_ses_microcode: "
 #define MAX_XFER_LEN (256 * 1024 * 1024)
@@ -479,7 +479,8 @@ send_then_receive(int sg_fd, uint32_t gen_code, int off_off,
 int
 main(int argc, char * argv[])
 {
-    bool last, got_stdin, is_reg;
+    bool last, is_reg;
+    bool got_stdin = false;
     bool want_file = false;
     bool verbose_given = false;
     bool version_given = false;

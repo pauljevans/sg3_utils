@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 Douglas Gilbert.
+ * Copyright (c) 2016-2026 Douglas Gilbert.
  * Copyright (c) 2022-2023 Boris Fox.
  * All rights reserved.
  * Use of this source code is governed by a BSD-style
@@ -35,7 +35,7 @@
  * device and decodes the response. Based on spc5r19.pdf
  */
 
-static const char * version_str = "1.08 20230623";
+static const char * version_str = "1.09 20260430";
 
 static const char * my_name = "sg_write_attr: ";
 
@@ -909,7 +909,7 @@ parse_attributes_from_file(const char * fname, const struct opts_t * op,
         ret = post_process_attributes(avps, avps_num, mp_arr, mp_arr_len,
                                       maxlen);
 fini:
-    if (fp && (stdin != fp))
+    if (fp && (! has_stdin))
         fclose(fp);
     if (avps)
         free(avps);

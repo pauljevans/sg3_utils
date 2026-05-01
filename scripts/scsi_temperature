@@ -21,13 +21,13 @@ usage()
 }
 
 opt="$1"
-while test ! -z "$opt" -a -z "${opt##-*}"; do
+while test ! -z "${opt}" -a -z "${opt##-*}"; do
   opt=${opt#-}
-  case "$opt" in
+  case "${opt}" in
     h|-help) usage ; exit 0 ;;
     v|-verbose) verbose="-v" ;;
     vv) verbose="-vv" ;;
-    *) echo "Unknown option: -$opt " ; exit 1 ;;
+    *) echo "Unknown option: -${opt} " ; exit 1 ;;
   esac
   shift
   opt="$1"
@@ -41,6 +41,6 @@ fi
 
 for i
 do
-	echo "sg_logs -t $verbose $i"
-        sg_logs -t $verbose $i
+	echo "sg_logs -t ${verbose} ${i}"
+        sg_logs -t "${verbose}" "${i}"
 done

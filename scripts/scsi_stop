@@ -30,13 +30,13 @@ usage()
 }
 
 opt="$1"
-while test ! -z "$opt" -a -z "${opt##-*}"; do
+while test ! -z "${opt}" -a -z "${opt##-*}"; do
   opt=${opt#-}
-  case "$opt" in
+  case "${opt}" in
     h|-help) usage ; exit 0 ;;
     v|-verbose) verbose="-v" ;;
     w|-wait) immediate="" ;;
-    *) echo "Unknown option: -$opt " ; exit 1 ;;
+    *) echo "Unknown option: -${opt} " ; exit 1 ;;
   esac
   shift
   opt="$1"
@@ -53,6 +53,6 @@ do
 # Use '-r' (read-only) otherwise using a block device node
 # (e.g. 'sg_start 0 /dev/sdb') can result in a change of state
 # event causing the disk to spin up again immediately.
-        echo "sg_start -r $immediate 0 $verbose $i"
-        sg_start -r $immediate 0 $verbose $i
+        echo "sg_start -r ${immediate} 0 ${verbose} ${i}"
+        sg_start -r ${immediate} 0 ${verbose} "${i}"
 done

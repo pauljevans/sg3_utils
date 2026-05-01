@@ -2,8 +2,8 @@ Source: sg3-utils
 Section: admin
 Priority: optional
 Maintainer: Eric Schwartz (Skif) <emschwar@debian.org>
-Build-Depends: debhelper (>> 7), libtool, libcam-dev [kfreebsd-i386 kfreebsd-amd64]
-Standards-Version: 3.8.2
+Build-Depends: debhelper (>= 10), libtool, autoconf, libcam-dev [kfreebsd-i386 kfreebsd-amd64]
+Standards-Version: 4.7.0
 
 Package: sg3-utils
 Architecture: any

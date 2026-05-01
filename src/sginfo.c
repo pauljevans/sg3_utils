@@ -124,7 +124,7 @@
 #define _GNU_SOURCE 1
 #endif
 
-static const char * version_str = "2.46 [20221216]";
+static const char * version_str = "2.47 [20260430]";
 
 #include <stdio.h>
 #include <string.h>
@@ -3639,12 +3639,14 @@ open_sg_io_dev(char * devname)
                 perror("sg ioctl failed");
                 close(fd);
                 fd = -9999;
+                break;
             }
             err = ioctl(fd, SCSI_IOCTL_GET_IDLUN, &mm_idlun);
             if (err < 0) {
                 perror("sg ioctl failed");
                 close(fd);
                 fd = -9999;
+                break;
             }
             if ((bus == bbus) &&
                 ((m_idlun.mux4 & 0xff) == (mm_idlun.mux4 & 0xff)) &&
@@ -3656,8 +3658,9 @@ open_sg_io_dev(char * devname)
             else {
                 close(fd);
                 fd = -9999;
+                break;
             }
-        }
+        }       /* end of for loop over MAX_SG_DEVS */
     }
     if (fd >= 0) {
         if ((ioctl(fd, SG_GET_VERSION_NUM, &v) < 0) || (v < 30000)) {

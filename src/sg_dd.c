@@ -2079,8 +2079,12 @@ parse_cmd_line(int argc, char * argv[], struct opts_t * op)
 
     for (k = 1; k < argc; k++) {
         if (argv[k]) {
-            strncpy(str, argv[k], STR_SZ);
-            str[STR_SZ - 1] = '\0';
+            n = (int)strlen(argv[k]);
+            if ((0 == n) || ((1 == n) && (' ' == argv[k][0])))
+                continue;       /* skip empty or single space arguments */
+            n = (n < STR_SZ) ? n : (STR_SZ - 1);
+            memcpy(str, argv[k], n);    /* truncate if argv[k] too long */
+            str[n] = '\0';
         } else
             continue;
         for (key = str, buf = key; *buf && *buf != '=';)

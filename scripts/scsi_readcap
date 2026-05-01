@@ -48,10 +48,10 @@ fi
 
 for i
 do
-	if [ $brief ] ; then
-        	sg_readcap $brief $long_opt $verbose $i 2> /dev/null
+	if [ ${brief} ] ; then
+        	sg_readcap ${brief} ${long_opt} ${verbose} "${i}" 2> /dev/null
 	else
-		echo "sg_readcap $brief $long_opt $verbose $i"
-        	sg_readcap $brief $long_opt $verbose $i
+		echo "sg_readcap ${brief} ${long_opt} ${verbose} ${i}"
+        	sg_readcap ${brief} ${long_opt} ${verbose} "${i}"
 	fi
 done

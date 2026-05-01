@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2023 Douglas Gilbert.
+ * Copyright (c) 2022-2026 Douglas Gilbert.
  * All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the BSD_LICENSE file.
@@ -369,7 +369,7 @@ sgj_uds_referral_descriptor(sgj_state * jsp, sgj_opaque_p jop,
                             const uint8_t * dp, int alen)
 {
     int dlen = alen - 2;
-    int k, j, g, f, aas;
+    int k, j, g, aas;
     uint64_t ull;
     const uint8_t * tp;
     sgj_opaque_p jap, jo2p, ja2p, jo3p;
@@ -380,7 +380,7 @@ sgj_uds_referral_descriptor(sgj_state * jsp, sgj_opaque_p jop,
     dp += 4;
     jap = sgj_named_subarray_r(jsp, jop,
                                "user_data_segment_referral_descriptor_list");
-    for (k = 0, f = 1; (k + 4) < dlen; k += g, dp += g, ++f) {
+    for (k = 0; (k + 4) < dlen; k += g, dp += g) {
         int ntpgd = dp[3];
 
         jo2p = sgj_new_unattached_object_r(jsp);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2023 Douglas Gilbert.
+ * Copyright (c) 2005-2026 Douglas Gilbert.
  * All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the BSD_LICENSE file.
@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
-/* sg_pt_linux version 1.56 20230412 */
+/* sg_pt_linux version 1.57 20260430 */
 
 
 #include <stdio.h>
@@ -426,6 +426,7 @@ construct_scsi_pt_obj_with_fd(int dev_fd, int verbose)
 
 #if (HAVE_NVME && (! IGNORE_NVME))
         sg_snt_init_dev_stat(&ptp->dev_stat);
+	/* g++ thinks above call might throw an exception ... */
         if (! checked_ev_dsense) {
             ev_dsense = sg_get_initial_dsense();
             checked_ev_dsense = true;

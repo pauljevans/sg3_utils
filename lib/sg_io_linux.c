@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2021 Douglas Gilbert.
+ * Copyright (c) 1999-2026 Douglas Gilbert.
  * All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the BSD_LICENSE file.
@@ -146,7 +146,7 @@ sg_linux_sense_print(const char * leadin, int scsi_status, int host_status,
     return 0;
 }
 
-#ifdef SG_IO
+#ifdef SG_IO            /* defined in <scsi/sg.h> for Linux sg driver */
 
 bool
 sg_normalize_sense(const struct sg_io_hdr * hp,

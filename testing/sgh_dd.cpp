@@ -1493,7 +1493,7 @@ read_write_thread(void * v_tip)
     Rq_elem rel {};
     Rq_elem * rep = &rel;
     int n, sz, blocks, status, vb, err, res, wr_blks, c_addr;
-    int num_sg = 0;
+    /* int num_sg = 0; */
     int64_t my_index;
     volatile bool stop_after_write = false;
     bool own_infd = false;
@@ -1580,7 +1580,7 @@ read_write_thread(void * v_tip)
             if (in_mmap && (vb > 4))
                 pr2serr_lk("thread=%d: mmap buffp=%p\n", rep->id, rep->buffp);
             own_infd = true;
-            ++num_sg;
+            /* ++num_sg; */
             if (vb > 2)
                 pr2serr_lk("thread=%d: opened local sg IFILE\n", rep->id);
         }
@@ -1595,7 +1595,7 @@ read_write_thread(void * v_tip)
             if (out_mmap && (vb > 4))
                 pr2serr_lk("thread=%d: mmap buffp=%p\n", rep->id, rep->buffp);
             own_outfd = true;
-            ++num_sg;
+            /* ++num_sg; */
             if (vb > 2)
                 pr2serr_lk("thread=%d: opened local sg OFILE\n", rep->id);
         }
@@ -2395,7 +2395,7 @@ process_mrq_response(Rq_elem * rep, const struct sg_io_v4 * ctl_v4p,
     int n_subm = num_mrq - ctl_v4p->dout_resid;
     int n_cmpl = ctl_v4p->info;
     int n_good = 0;
-    int hole_count = 0;
+    /* int hole_count = 0; */
     int vb = clp->verbose;
     int k, j, f1, slen, blen;
     char b[160];
@@ -2433,8 +2433,10 @@ process_mrq_response(Rq_elem * rep, const struct sg_io_v4 * ctl_v4p,
     for (k = 0, j = 0; ((k < num_mrq) && (j < n_subm));
          ++k, j += f1, ++a_v4p) {
         slen = a_v4p->response_len;
-        if (! (SG_INFO_MRQ_FINI & a_v4p->info))
-            ++hole_count;
+        if (! (SG_INFO_MRQ_FINI & a_v4p->info)) {
+            /* ++hole_count; */
+            ;
+        }
         ok = true;
         f1 = !!(a_v4p->info);   /* want to skip n_subm count if info is 0x0 */
         if (SG_INFO_CHECK & a_v4p->info) {

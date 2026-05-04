@@ -33,6 +33,10 @@ They have different man pages: sg_scan.8.linux and sg_scan.8.win32 with
 the Makefile logic (rule in Makefile.am) copying the appropriate one to
 sg_scan.8 . sg_scan is not supported for other ports.
 
+To view the manpage in this directory (rather than the installed one, if
+the package is installed) use, for example:
+    man ./sg3_utils.8
+
 Syntax checking
 ===============
 Use 'mandoc -W style {man_page} > /dev/null'
@@ -41,4 +45,4 @@ The: 'cannot parse date, using it verbatim: TH February 2019' warning
 is ignored.
 
 Douglas Gilbert
-21st April 2026
+2nd May 2026

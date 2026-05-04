@@ -29,7 +29,7 @@
 
 #define MY_NAME "sg_tst_json_builder"
 
-static const char * version_str = "1.05 20231027";
+static const char * version_str = "1.06 20260503";
 
 
 static struct option long_options[] = {
@@ -80,7 +80,7 @@ main(int argc, char * argv[])
     bool verbose_given = false;
     bool version_given = false;
     int c;
-    int verbose = 0;
+    /* int verbose = 0; */
     int ret = 0;
     size_t len;
     sgj_state jstate SG_C_CPP_ZERO_INIT;
@@ -128,9 +128,9 @@ main(int argc, char * argv[])
             do_json = true;
             js_file = optarg;
             break;
-                case 'v':
+        case 'v':
             verbose_given = true;
-            ++verbose;
+            /* ++verbose; */
             break;
         case 'p':
             do_plain = true;
@@ -200,7 +200,7 @@ main(int argc, char * argv[])
 #endif
     jv5p = jvp;
 
-    
+
 
     len = json_measure_ex(jv5p, out_settings);
     printf("jvp length: %zu bytes\n", len);
@@ -224,7 +224,7 @@ main(int argc, char * argv[])
 
         if (verbose_given)
             pr2serr("do_json=%d, do_plain=%d\n", do_json, do_plain);
-	if (do_json) {
+        if (do_json) {
             if (! sgj_init_state(jsp, json_arg)) {
                 int bad_char = jsp->first_bad_char;
                 char e[1500];
@@ -240,7 +240,7 @@ main(int argc, char * argv[])
                 return 1;
             }
             jop = sgj_start_r(MY_NAME, version_str, argc, argv, jsp);
-	}
+        }
         jap = sgj_named_subarray_r(jsp, jop, "mixed_array");
         sgj_js_nv_o(jsp, jap, NULL /* no name so adding to array */,
                     sgj_new_unattached_string_r(jsp, "a string"));
@@ -265,21 +265,21 @@ main(int argc, char * argv[])
 
         /* add more tests here <<<<<<<<<             xxxxxxxxxxxxxxxxx */
         sgj_pr_hr(jsp, "Test '_haj_' calls (human readable and json)\n");
-	sgj_haj_vs(jsp, jo2p, 2, "sgj_haj_vs", SGJ_SEP_COLON_1_SPACE,
-	           "should have leaing spaces");
-	sgj_haj_vi(jsp, jo2p, 2, "sgj_haj_vi", SGJ_SEP_COLON_1_SPACE,
-	           42, false);
-	sgj_haj_vi(jsp, jo2p, 4, "sgj_haj_vi_hex_haj", SGJ_SEP_COLON_1_SPACE,
-	           42, true);
-	sgj_haj_vi_nex(jsp, jo2p, 2, "sgj_haj_vi_nex", SGJ_SEP_COLON_1_SPACE,
-	           42, false, "Name extra");
-	sgj_haj_vistr(jsp, jo2p, 2, "sgj_haj_vistr", SGJ_SEP_COLON_1_SPACE,
-	              42, false, "integer and this string");
-	sgj_haj_vistr(jsp, jo2p, 4, "sgj_haj_vistr_t", SGJ_SEP_COLON_1_SPACE,
-	              42, true, "hex_haj is true");
-	sgj_haj_vistr_nex(jsp, jo2p, 2, "sgj_haj_vistr_nex",
-			  SGJ_SEP_COLON_1_SPACE, 42, false,
-			  "hex_haj is false", "Name extra");
+        sgj_haj_vs(jsp, jo2p, 2, "sgj_haj_vs", SGJ_SEP_COLON_1_SPACE,
+                   "should have leading spaces");
+        sgj_haj_vi(jsp, jo2p, 2, "sgj_haj_vi", SGJ_SEP_COLON_1_SPACE,
+                   42, false);
+        sgj_haj_vi(jsp, jo2p, 4, "sgj_haj_vi_hex_haj", SGJ_SEP_COLON_1_SPACE,
+                   42, true);
+        sgj_haj_vi_nex(jsp, jo2p, 2, "sgj_haj_vi_nex", SGJ_SEP_COLON_1_SPACE,
+                   42, false, "Name extra");
+        sgj_haj_vistr(jsp, jo2p, 2, "sgj_haj_vistr", SGJ_SEP_COLON_1_SPACE,
+                      42, false, "integer and this string");
+        sgj_haj_vistr(jsp, jo2p, 4, "sgj_haj_vistr_t", SGJ_SEP_COLON_1_SPACE,
+                      42, true, "hex_haj is true");
+        sgj_haj_vistr_nex(jsp, jo2p, 2, "sgj_haj_vistr_nex",
+                          SGJ_SEP_COLON_1_SPACE, 42, false,
+                          "hex_haj is false", "Name extra");
 
         if (js_file) {
             if ((1 != strlen(js_file)) || ('-' != js_file[0])) {

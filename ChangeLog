@@ -2,7 +2,7 @@ Each utility has its own version number, date of last change and
 some description at the top of its ".c" file. All utilities in the main
 directory have their own "man" pages. There is also a sg3_utils man page.
 
-Changelog for pre-release sg3_utils-1.49 [20260430] [svn: r1102]
+Changelog for pre-release sg3_utils-1.49 [20260503] [svn: r1103]
   - AIX partial support: needs getopt.h header which
     surprisingly is non-standard. Keep hidden version in
     lib directory and copy to include dir as needed
@@ -46,6 +46,7 @@ Changelog for pre-release sg3_utils-1.49 [20260430] [svn: r1102]
   - start complying with T10 23-047r1 "Broadcom SNT Reference"
     document assuming T10 SNT drafts are coming
   - sg_lib: add sg_last_n_non_blank() for SNT FR field
+  - sg_lib: sg_json.c fixes from lsscsi project pull #15
   - rearrange SNT and NVMe headers and associated source
   - new error code: SG_LIB_PROGRESS_NOT_READY for long
     duration 'in progress' additional sense codes
@@ -56,7 +57,7 @@ Changelog for pre-release sg3_utils-1.49 [20260430] [svn: r1102]
     https://github.com/doug-gilbert/sg3_utils/pull/42
   - testing/sg_chk_inq_vd.c: test internal table against T10
     version descriptor file
-  - check and clean against gcc-16 -fanalyzer
+  - check/clean against gcc-16 -fanalyzer; clang-22 --analyze
 
 Changelog for released sg3_utils-1.48 [20230801] [svn: r1042]
   - decoding utilities: add --json[=JO] and --js-file=JFN

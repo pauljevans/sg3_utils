@@ -144,11 +144,14 @@ set_scsi_pt_cdb(struct sg_pt_base * vp, const unsigned char * cdb,
 {
     struct sg_pt_haiku_scsi * ptp = &vp->impl;
 
-    for (int i = 0; i < 16; ++i)
-        if (ptp->raw_command.command[i])
-            ++ptp->in_err;
-    memcpy(ptp->raw_command.command, cdb, cdb_len);
-    ptp->raw_command.command_length = (uint8_t)cdb_len;
+    if (cdb && (cdb_len > 0)) {
+        for (int i = 0; i < 16; ++i) {
+            if (ptp->raw_command.command[i])
+                ++ptp->in_err;
+        }
+        memcpy(ptp->raw_command.command, cdb, cdb_len);
+        ptp->raw_command.command_length = (uint8_t)cdb_len;
+    }
 }
 
 void
@@ -157,10 +160,12 @@ set_scsi_pt_sense(struct sg_pt_base * vp, unsigned char * sense,
 {
     struct sg_pt_haiku_scsi * ptp = &vp->impl;
 
-    if (ptp->raw_command.sense_data)
-        ++ptp->in_err;
-    memset(sense, 0, max_sense_len);
-    ptp->raw_command.sense_data = sense;
+    if (sense && (max_sense_len > 0)) {
+        if (ptp->raw_command.sense_data)
+            ++ptp->in_err;
+        memset(sense, 0, max_sense_len);
+        ptp->raw_command.sense_data = sense;
+    }
     ptp->raw_command.sense_data_length = max_sense_len;
 }
 

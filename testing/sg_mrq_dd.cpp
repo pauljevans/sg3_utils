@@ -2,7 +2,7 @@
  * A utility program for copying files. Specialised for "files" that
  * represent devices that understand the SCSI command set.
  *
- * Copyright (C) 2018-2023 D. Gilbert
+ * Copyright (C) 2018-2026 D. Gilbert
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -30,7 +30,7 @@
  *
  */
 
-static const char * version_str = "1.46 20231016";
+static const char * version_str = "1.47 20260502";
 
 #define _XOPEN_SOURCE 600
 #ifndef _GNU_SOURCE
@@ -1588,7 +1588,6 @@ read_write_thread(struct global_collection * clp, int thr_idx, int slice_idx,
     Rq_elem * rep = &rel;
     int n, sz, fd, vb, err, seg_blks;
     int res = 0;
-    int num_sg = 0;
     bool own_infd = false;
     bool in_is_sg, in_mmap, out_is_sg, out_mmap;
     bool own_outfd = false;
@@ -1705,7 +1704,6 @@ read_write_thread(struct global_collection * clp, int thr_idx, int slice_idx,
         if (in_mmap && (vb > 4))
             pr2serr_lk("[%d] %s: mmap buffp=%p\n", thr_idx, __func__,
                        rep->buffp);
-        ++num_sg;
         if (vb > 2)
             pr2serr_lk("[%d]: opened local sg IFILE\n", thr_idx);
     }
@@ -1727,7 +1725,6 @@ read_write_thread(struct global_collection * clp, int thr_idx, int slice_idx,
             rep->mmap_active = out_mmap ? clp->out_flags.mmap : 0;
         if (out_mmap && (vb > 4))
             pr2serr_lk("[%d]: mmap buffp=%p\n", thr_idx, rep->buffp);
-        ++num_sg;
         if (vb > 2)
             pr2serr_lk("[%d]: opened local sg OFILE\n", thr_idx);
     }
@@ -2177,7 +2174,7 @@ process_mrq_response(Rq_elem * rep, const struct sg_io_v4 * ctl_v4p,
     int n_subm = num_mrq - ctl_v4p->dout_resid;
     int n_cmpl = ctl_v4p->info;
     int n_good = 0;
-    int hole_count = 0;
+    /* int hole_count = 0; */
     int cat = 0;
     int vb = clp->verbose;
     int k, j, f1, slen;
@@ -2215,14 +2212,16 @@ process_mrq_response(Rq_elem * rep, const struct sg_io_v4 * ctl_v4p,
     for (k = 0, j = 0; ((k < num_mrq) && (j < n_subm));
          ++k, j += f1, ++a_v4p) {
         slen = a_v4p->response_len;
-        if (! (SG_INFO_MRQ_FINI & a_v4p->info))
-            ++hole_count;
+        if (! (SG_INFO_MRQ_FINI & a_v4p->info)) {
+            /* ++hole_count; */
+            ;
+        }
         ok = true;
         f1 = !!(a_v4p->info);   /* want to skip n_subm count if info is 0x0 */
         if (SG_INFO_CHECK & a_v4p->info) {
             if ((0 == k) && (SGV4_FLAG_META_OUT_IF & ctl_v4p->flags) &&
                 (UINT32_MAX == a_v4p->info)) {
-                hole_count = 0;
+                /* hole_count = 0; */
                 n_good = num_mrq;
                 good_inblks = rep->a_mrq_din_blks;
                 good_outblks = rep->a_mrq_dout_blks;
@@ -2638,7 +2637,7 @@ static int
 do_normal_normal_segment(Rq_elem * rep, scat_gath_iter & i_sg_it,
                          scat_gath_iter & o_sg_it, int seg_blks)
 {
-    int k, kk, res, id, num, d_off;
+    int kk, res, id, num, d_off;
     int o_seg_blks = seg_blks;
     uint32_t in_fin_blks = 0;
     uint32_t out_fin_blks = 0;
@@ -2646,7 +2645,7 @@ do_normal_normal_segment(Rq_elem * rep, scat_gath_iter & i_sg_it,
 
     id = rep->id;
     d_off = 0;
-    for (k = 0; seg_blks > 0; ++k, seg_blks -= num, d_off += num) {
+    for ( ; seg_blks > 0; seg_blks -= num, d_off += num) {
         kk = min<int>(seg_blks, clp->bpt);
         num = i_sg_it.linear_for_n_blks(kk);
         res = normal_in_rd(rep, i_sg_it.current_lba(), num,
@@ -2669,7 +2668,7 @@ do_normal_normal_segment(Rq_elem * rep, scat_gath_iter & i_sg_it,
     if (FT_DEV_NULL == clp->out_type)
         goto fini;
     d_off = 0;
-    for (k = 0; seg_blks > 0; ++k, seg_blks -= num, d_off += num) {
+    for ( ; seg_blks > 0; seg_blks -= num, d_off += num) {
         kk = min<int>(seg_blks, clp->bpt);
         num = o_sg_it.linear_for_n_blks(kk);
         res = normal_out_wr(rep, o_sg_it.current_lba(), num,
@@ -2723,7 +2722,7 @@ do_normal_sg_segment(Rq_elem * rep, scat_gath_iter & i_sg_it,
                      vector<struct sg_io_v4> & a_v4)
 {
     bool in_is_normal = ! rep->only_in_sg;
-    int k, kk, res, id, num, d_off;
+    int kk, res, id, num, d_off;
     int o_seg_blks = seg_blks;
     uint32_t in_fin_blks = 0;
     uint32_t out_fin_blks = 0;
@@ -2735,7 +2734,7 @@ do_normal_sg_segment(Rq_elem * rep, scat_gath_iter & i_sg_it,
 
     if (in_is_normal) {   /* in: normal --> out : sg */
         d_off = 0;
-        for (k = 0; seg_blks > 0; ++k, seg_blks -= num, d_off += num) {
+        for ( ; seg_blks > 0; seg_blks -= num, d_off += num) {
             kk = min<int>(seg_blks, clp->bpt);
             num = i_sg_it.linear_for_n_blks(kk);
             res = normal_in_rd(rep, i_sg_it.current_lba(), num,
@@ -2799,7 +2798,7 @@ do_normal_sg_segment(Rq_elem * rep, scat_gath_iter & i_sg_it,
             goto bypass;
         }
         d_off = 0;
-        for (k = 0; seg_blks > 0; ++k, seg_blks -= num, d_off += num) {
+        for ( ; seg_blks > 0; seg_blks -= num, d_off += num) {
             kk = min<int>(seg_blks, clp->bpt);
             num = o_sg_it.linear_for_n_blks(kk);
             res = normal_out_wr(rep, o_sg_it.current_lba(), num,

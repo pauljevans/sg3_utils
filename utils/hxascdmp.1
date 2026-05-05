@@ -1,34 +1,53 @@
-.TH HXASCDMP "1" "February 2019" "sg3_utils\-1.45" SG3_UTILS
+.TH HXASCDMP "1" "May 2026" "sg3_utils\-1.49" SG3_UTILS
 .SH NAME
 hxascdmp \- hexadecimal ASCII dump
 .SH SYNOPSIS
 .B hxascdmp
-[\fI\-b=BPL\fR] [\fI\-h\fR] [\fI\-H\fR] [\fI\-N\fR] [\fI\-o=OFF\fR]
-[\fI\-V\fR] [\fIFILE+\fR]
+[\fI\-1\fR] [\fI\-2\fR] [\fI\-b=BPL\fR] [\fI\-h\fR] [\fI\-H\fR] [\fI\-N\fR]
+[\fI\-o=OFF\fR] [\fI\-q\fR] [\fI\-V\fR] [\fIFILE+\fR]
 .SH DESCRIPTION
 .\" Add any additional description here
 .PP
-This utility reads one or more \fIFILE\fR names and dumps them in hexadecimal
-and ASCII to stdout. If no \fIFILE\fR is given then stdin is read instead;
-reading continues (or stalls) until an EOF is received.
+This utility reads one or more \fIFILE\fR names and dumps their contents
+in hexadecimal and ASCII to stdout. If no \fIFILE\fR is given then stdin
+is read instead; reading continues (or stalls) until an EOF is received.
+The output is byte oriented, so there are no options for word (2 bytes) or
+double word (4 bytes) representations.
 .PP
 The default format is to start each line with the hexadecimal address (offset
 from the start of file) followed by 16 hexadecimal bytes separated by a
 single space (apart from the 8th and 9th bytes which are separated by two
-spaces). If the \fI\-H\fR is not given, there is then a string of 16 ASCII
-characters corresponding to the hexadecimal bytes earlier in the line; only
-bytes in the range 0x20 to 0x7e are printed in ASCII, other bytes values are
-printed as '.' . If the \fI\-H\fR is not given, each \fIFILE\fR name that
-appears on the command line is printed on a separate line prior to that
-file's hexadecimal ASCII dump.
+spaces; for improved readability). If the \fI\-H\fR is not given, there is
+then a string of 16 ASCII characters corresponding to the hexadecimal bytes
+earlier in the line; only bytes in the range 0x20 to 0x7e are printed in
+ASCII, other bytes values are printed as '.' . If the \fI\-H\fR is not
+given, each \fIFILE\fR name that appears on the command line is printed on
+a separate line prior to that file's hexadecimal ASCII dump.
 .PP
 If the \fI\-N\fR option is given then no address is printed out and each
 line starts with the next hexadecimal byte.
 .PP
 This utility is pretty close to the 'hexdump -C' variant of BSD's
 .B hexdump(1)
-command.
+command. And hexdump is recommended if a word or double word representation
+is required.
 .SH OPTIONS
+.TP
+\fB\-1\fR
+prints the first byte of \fIFILE\fR in ASCII hexadecimal (i.e. two ASCII
+characters) then exits. If there are multiple \fIFILE\fRs then the first
+byte of each file is printed on a separate line. If there are no \fIFILE\fRs
+then it reads the first byte from stdin, prints it in ASCII hex then exits.
+To prepend '0x' to the output add the \fI\-H\fR option.
+.TP
+\fB\-2\fR
+prints the first two bytes of \fIFILE\fR in ASCII hexadecimal (i.e. two
+ASCII hex digits [0-9, a-f], a space character followed by two ASCII hex
+digits) then exits. If there are multiple \fIFILE\fRs then the first
+two bytes of each file is printed on a separate line. If there are no
+\fIFILE\fRs then it reads the first two bytes from stdin, prints them in
+ASCII hex then exits. To prepend '0x' each hex byte in the output add the
+\fI\-H\fR option.
 .TP
 \fB\-b\fR=\fIBPL\fR
 where \fIBPL\fR specifies the number of bytes per line. The default value is
@@ -50,6 +69,9 @@ no address; so each line starts with the next hexadecimal byte.
 where \fIOFF\fR specifies the byte offset from the beginning of the pipe or
 the beginning of each file that the output starts. If the address is being
 printed out then it starts at \fIOFF\fR. The default is an \fIOFF\fR of 0 .
+.TP
+\fB\-q\fR
+Don't print any file information on the first line.
 .TP
 \fB\-V\fR, \fB\-\-version\fR
 print the version string and then exit.
@@ -98,14 +120,22 @@ For comparison the hexdump utility gives similar output:
 00000010  2c 09 0d aa 0a                                    |,....|
 .br
 00000015
+.PP
+To paginate the output, pipe through the
+.B more
+or
+.B less
+command. That way viewing part of a long binary file can be terminated by
+using 'q' when the more (or less) command pauses after displaying one
+page of hex.
 .SH AUTHORS
 Written by Douglas Gilbert.
 .SH "REPORTING BUGS"
 Report bugs to <dgilbert at interlog dot com>.
 .SH COPYRIGHT
-Copyright \(co 2004\-2019 Douglas Gilbert
+Copyright \(co 2004\-2026 Douglas Gilbert
 .br
 This software is distributed under a FreeBSD license. There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 .SH "SEE ALSO"
-.B hexdump(1)
+.B hexdump(1), less(1), more(1)

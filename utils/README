@@ -16,5 +16,9 @@ builds for FreeBSD (e.g. 'make -f Makefile.freebsd'); the
 in the Windows MinGW environment (e.g.  msys shell); and 'Makefile.cygwin'
 builds in the Windows Cygwin environment.
 
+hxasdmp.1 is a manpage for this utility and can be viewed, without
+installing it, like this:
+    man ./hxascdmp.1
+
 Douglas Gilbert
-4th November 2017
+4th May 2026

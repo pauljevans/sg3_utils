@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004-2019 Douglas Gilbert.
+ * Copyright (c) 2004-2026 Douglas Gilbert.
  * All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the BSD_LICENSE file.
@@ -24,7 +24,7 @@
 
 static int bytes_per_line = DEF_BYTES_PER_LINE;
 
-static const char * version_str = "1.11 20190527";
+static const char * version_str = "1.12 20260504";
 
 #define CHARS_PER_HEX_BYTE 3
 #define BINARY_START_COL 6
